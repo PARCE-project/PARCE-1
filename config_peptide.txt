@@ -1,0 +1,16 @@
+folder: 1ppg_design
+mode: start
+peptide_reference: AAPAAAPP
+pdbID: 1ppg_AAPAAAPP
+chain: B
+sim_time: 5
+num_mutations: 30
+try_mutations: 10
+half_flag: 0
+residues_mod: 1,2,3,4,5,6,7,8
+md_route: ./design_output/peptide_protein
+md_original: 1ppg_AAPAAAPP
+score_list: bach,pisa,zrank,irad,bmf-bluues,firedock
+threshold: 3
+scwrl_path: /usr/local/bin/scwrl4/Scwrl4
+gmxrc_path: /usr/local/gromacs/bin/GMXRC
