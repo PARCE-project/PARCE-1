@@ -25,4 +25,4 @@ pip3 install GromacsWrapper
 # Ubuntu 16.04 script to test additional functionalities
 ########################################################################################
 
-python3.5 test.py
+python3 test.py

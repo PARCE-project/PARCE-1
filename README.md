@@ -54,7 +54,7 @@ The protocol has included a set of mdp files (with fixed names) to run the multi
 
 **The protocol has been created and tested using Python3.5**. The basic command line to run the script is:
 
-`python3.5 run_protocol.py [-h] -c CONFIG_FILE`
+`python3 run_protocol.py [-h] -c CONFIG_FILE`
                                        
 where the arguments are:
 
@@ -137,7 +137,9 @@ A number of tests are provided to check the PARCE functionalities of the third-p
 - Attempt a mutation using the Scwrl4 program
 - Calculate all the scoring functions using the initial system provided
 
-The test can be run using the following command: `python3.5 test.py`. A report with the results per test is generated in the main folder with the name `report_test.txt`
+The test can be run using the following command: `python3 test.py`. A report with the results per test is generated in the main folder with the name `report_test.txt`.
+
+**NOTE: Please change in the test.py script the paths to Scwrl4 and Gromacs based on your local installation. The variables are: scwrl_path and gmxrc_path**
 
 ## Post-analysis of the results
 

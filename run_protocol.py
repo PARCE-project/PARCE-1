@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 """
 PARCE: Protocol for Amino acid Refinement through Computational Evolution

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 """
 PARCE: Protocol for Amino acid Refinement through Computational Evolution
@@ -28,6 +28,7 @@ __email__ = "rodrigo.ochoa@udea.edu.co"
 ########################################################################################
 # Modules to import
 ########################################################################################
+import os
 from src import scoring
 from src import mutation
 from src import general
@@ -57,7 +58,7 @@ if __name__ == '__main__':
     folder="test_result"
     mode="start"
     peptide_reference="AAPAAAPP"
-    md_route="./design_output/1ppg_init"
+    md_route="./design_output/peptide_protein"
     md_original="1ppg_AAPAAAPP"
     
     iteration=0
@@ -66,6 +67,9 @@ if __name__ == '__main__':
     
     # Variables for mutation test
     scwrl_path="/usr/local/bin/scwrl4/Scwrl4"
+    gmxrc_path="/usr/local/gromacs/bin/GMXRC"
+
+    os.system(". {}".format(gmxrc_path))
     peptide_mutated="AAPATAPP"
     
     # File containing the results

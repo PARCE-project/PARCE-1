@@ -25,7 +25,7 @@
 #include "topol_Protein_chain_B.itp"
 
 ; Include water topology
-#include "tip3p_mod.itp"
+#include "amber99sb-ildn.ff/tip3p.itp"
 
 #ifdef POSRES_WATER
 ; Position restraint for each water oxygen

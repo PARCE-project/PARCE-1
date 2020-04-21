@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 """
 PARCE: Protocol for Amino acid Refinement through Computational Evolution
@@ -149,7 +149,7 @@ class mutate_peptide:
             os.system("sed -i 's/CD  ILE/CD1 ILE/g' {}/pre-mutated.pdb".format(self.path))
 
         # Separate the chains
-        os.system("python3.5 src/scores/get_chains.py {}/pre-mutated.pdb {}".format(self.path,self.path))
+        os.system("python3 src/scores/get_chains.py {}/pre-mutated.pdb {}".format(self.path,self.path))
         
         # Obtain the region of the peptide before the position that will be mutated
         if self.pep_position>=10:
@@ -231,7 +231,7 @@ class mutate_peptide:
         """
         
         # Get the chain with the peptide to generate a novel itp file
-        os.system("python3.5 src/scores/get_chains.py {}/complex.pdb {}".format(self.path,self.path))
+        os.system("python3 src/scores/get_chains.py {}/complex.pdb {}".format(self.path,self.path))
         rc,sout,serr=gromacs.pdb2gmx(f=self.path+"/complex_"+self.pep_chain+".pdb", p=self.path+"/binder.top", o=self.path+"/complex_"+self.pep_chain+".gro", stdout=False, input=('6','6'))
         os.system("sed -i '/forcefield/d' {}/binder.top".format(self.path))
         os.system("sed -i '/\[ system \]/,$d' {}/binder.top".format(self.path))

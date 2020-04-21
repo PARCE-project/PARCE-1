@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 """
 PARCE: Protocol for Amino acid Refinement through Computational Evolution
@@ -99,7 +99,7 @@ class score_protein_protein:
         firedock_score -- Score predicted by Firedock
         """
         path_target=self.path+"/"+self.pdbID
-        os.system("python3.5 {}/get_chains.py {}.pdb {}".format(self.path_scores,path_target,self.path))
+        os.system("python3 {}/get_chains.py {}.pdb {}".format(self.path_scores,path_target,self.path))
         # Create dynamically the target with the corresponding chains
         if len(self.chain_target) > 1:
             structures_to_join=""
@@ -212,7 +212,7 @@ class score_protein_protein:
         path_target=self.pdbID
         pdb=self.path+"/"+self.pdbID
         os.system("cp {}.pdb .".format(pdb))
-        os.system("python3.5 {}/get_chains.py {}.pdb .".format(self.path_scores,path_target))
+        os.system("python3 {}/get_chains.py {}.pdb .".format(self.path_scores,path_target))
         # Create dynamically the target with the corresponding chains
         if len(self.chain_target) > 1:
             structures_to_join=""

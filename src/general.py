@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 """
 PARCE: Protocol for Amino acid Refinement through Computational Evolution
@@ -120,7 +120,7 @@ class complex:
         if self.mode=="start":
             # Create folder and copy the initial standard files
             os.system("rm -r design_output/{folder}; mkdir design_output/{folder}".format(folder=folder_name))
-            os.system("cp -r src/start/mdp src/start/tip3p_mod.itp design_output/{}".format(folder_name))
+            os.system("cp -r src/start/mdp design_output/{}".format(folder_name))
             
             # Modify the npt file time
             mdp_npt=MDP()
@@ -138,13 +138,12 @@ class complex:
             os.system("cp {}/{}.pdb design_output/{}/{}.pdb".format(md_route,md_original_pdb_name,folder_name,self.pdbID))
             os.system("cp {}/{}.gro design_output/{}/{}.gro".format(md_route,md_original_pdb_name,folder_name,self.pdbID))
             os.system("cp {}/topol_Protein_chain_* {}/topol.top design_output/{}".format(md_route,md_route,folder_name))
-            os.system("cp {}/posre_Selection_Protein_chain_* design_output/{}".format(md_route,folder_name))
         
         # Restart from a given iteration
         if self.mode=="restart":
             # Create folder and copy the initial standard files
             os.system("rm -r design_output/{folder}; mkdir design_output/{folder}".format(folder=folder_name))
-            os.system("cp -r src/start/mdp src/start/tip3p_mod.itp design_output/{}".format(folder_name))
+            os.system("cp -r src/start/mdp design_output/{}".format(folder_name))
             
             # Modify the npt file time
             mdp_npt=MDP()
@@ -159,7 +158,6 @@ class complex:
             
             # Copy the topol files and restrain atom files
             os.system("cp {}/topol_Protein_chain_* {}/topol.top design_output/{}".format(md_route,md_route,folder_name))
-            os.system("cp {}/posre_Selection_Protein_chain_* design_output/{}".format(md_route,folder_name))
             os.system("rm design_output/{}/topol_Protein_chain_{}.itp".format(folder_name,self.binder))
             
             # Generate a novel itp file for the chain
