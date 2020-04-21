@@ -9,7 +9,7 @@
 
 ## Purpose
 
-PARCE is a metaprotocol that explores the sequence space of peptides and proteins in bound conformations, using a Monte Carlo approach that integrates various simulation and prediction methods. These include a single-point mutation protocol to predict frequently sampled rotamers of the amino acids, the all-atom molecular dynamics simulation of the mutated complex and the average score of the trajectory to assess the impact of the mutation in the binding. The latest can be configured based on the implementation of multiple scoring functions, which allows for the definition of a consensus metric to accept or reject modifications. The process is repeated during a certain number of iterations with the aim to evolve the original sequence and explore efficiently novel sequences with potential better affinities toward their targets. The computational protocol is completely open source, allowing the easy installation and configuration of the code to run local analysis with a protein of interest.
+Here we present PARCE, an open source Protocol for Amino acid Refinement through Computational Evolution that implements an advanced and promising method for the design of peptides and proteins. The protocol performs a random mutation in the binder sequence, then samples the bound conformations using molecular dynamics simulations, and evaluates the protein-protein interactions from multiple scoring. Finally, it accepts or rejects the mutation by applying a consensus criterion based on binding scores. The procedure is iterated with the aim to explore efficiently novel sequences with potential better affinities toward their targets. We also provide a tutorial for running and reproducing the methodology.
 
 ## Third-party tools required:
 
