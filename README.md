@@ -157,7 +157,7 @@ To create the container and start playing with the protocol use the following co
 
 ```docker run -it rochoa85/parce-1 /bin/bash```
 
-After that, you can find the code in the folder: `/home/PARCE` and start after following the instructions provided in the README
+After that, you can find the code in the folder: `/home/PARCE-1` and start after following the instructions provided in the README. **In this scenario, the only external software required to be installed is Scwrl4.**
 
 To exit, just enter the command `exit`. Then you can check the container created with the command `sudo docker ps -a`. The **container-id** is in the first column, which will be used to access later the docker container. To achieve that, first activate the **container-id** with:
 
@@ -172,6 +172,19 @@ and then open the bash environment with the following command
 - Windows: https://docs.docker.com/docker-for-windows/
 - Mac: https://docs.docker.com/docker-for-mac/
 - Linux distributions: https://docs.docker.com/engine/install/ubuntu/
+
+## External references
+
+If you implement this protocol and publish the results, these references to external programs should be included:
+
+- Gromacs: Hess et al., J. Chem. Theory Comput., 4, 435–447, 2008
+- Scwrl4: Krivov et al., Proteins: Struct. Funct. Bioinf., 77 (4), 778–795, 2009.
+- Bach:  Cossio et. al., Sci. Rep., 2, 1–8. 2012.  Sarti et al., Comput. Phys. Commun., 184 (12), 2860–2865. 2013. Sarti et. al, Proteins: Struct. Funct. Bioinf., 83 (4), 621–630, 2015.
+- Pisa: Krissinel and  Henrick, J. Mol. Biol., 372 (3), 774–797, 2007
+- Firedock: Andrusier et al., Proteins: Struct. Funct. Bioinf., 69 (1), 139–159, 2007. 
+- Irad: Vreven et al., Protein Sci., 20 (9), 1576–1586, 2011. 
+- Zrank: Pierce and Weng, Proteins: Struct. Funct. Bioinf., 67 (4), 1078–1086 2007.
+- BMF-Bluues: The programs bluues (Fogolari et al., BMC Bioinformatics, 13 (S4), S18, 2012)  and  score_bmf (Berrera et al.,  BMC Bioinformatics, 4, 8, 2003) were kindly provided by Prof. F. Fogolari, University of Udine.
 
 ## Support
 
