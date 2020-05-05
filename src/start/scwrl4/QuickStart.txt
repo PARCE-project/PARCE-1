@@ -1,0 +1,27 @@
+============
+Quick start:
+============
+
+The following command will predict side-chain conformations built around
+a protein backbone:
+
+Scwrl4 -i abcd_IN.pdb -o abcd_OUT.pdb
+
+This command will read the backbone coordinates from abcd_IN.pdb and write the
+predicted side-chain coordinates into the file abcd_OUT.pdb. A test input file
+called abcd_IN.pdb resides in the SCWRL4 directory.
+
+You are free to specify relative or absolute paths to the input and output
+files. If file locations include spaces, you should place the filenames in
+double quotes.
+
+For more usage details please refer to Readme.txt file in SCWRL4 directory or
+just type Scwrl4.exe without input arguments.
+
+Georgii Krivov, Maxim Shapovalov and Roland Dunbrack
+Fox Chase Cancer Center
+333 Cottman Ave
+Philadelphia PA 19111
+
+http://dunbrack.fccc.edu/scwrl4
+
