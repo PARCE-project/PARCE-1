@@ -144,15 +144,17 @@ if __name__ == '__main__':
     else:
         print("The parameter 'threshold' is required for the analysis. Exiting ...")
         exit()
-    if args.scwrl_path:
-        scwrl_path=args.scwrl_path
-    else:
+    try:    
+        if args.scwrl_path:
+            scwrl_path=args.scwrl_path
+    except:
         print("The Scwrl4 path has not been provided. In that case the software will be called from the system path")
         scwrl_path="Scwrl4"
-    if args.gmxrc_path:
-        os.system(". {}".format(args.gmxrc_path))
-        os.environ['GMX_MAXBACKUP'] = "-1"
-    else:
+    try:    
+        if args.gmxrc_path:
+            os.system(". {}".format(args.gmxrc_path))
+            os.environ['GMX_MAXBACKUP'] = "-1"
+    except:
         print("The Gromacs path has not been provided. In that case the software will be called using the system path")
         os.environ['GMX_MAXBACKUP'] = "-1"
     
