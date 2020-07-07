@@ -681,9 +681,9 @@ class complex:
                 #local_mutation.mutate_scwrl()
                 local_mutation.mutate_faspr()
                 
-                import sys
-                sys.exit()
-                break
+                #import sys
+                #sys.exit()
+                #break
                 
                 
                 try:
