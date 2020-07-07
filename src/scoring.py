@@ -41,7 +41,7 @@ warnings.simplefilter('ignore', BiopythonWarning)
 # Class and functions
 class score_protein_protein:
     #################################################################### 
-    def __init__(self,pdbID,path,chain_target,chain_binder):
+    def __init__(self,pdbID,path,src_route,chain_target,chain_binder):
         """
         Initializer
         
@@ -56,7 +56,7 @@ class score_protein_protein:
         """
         self.pdbID=pdbID
         self.path=path
-        self.path_scores="src/scores"
+        self.path_scores="{}/src/scores".format(src_route)
         self.chain_target=chain_target
         self.chain_binder=chain_binder
     

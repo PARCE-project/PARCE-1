@@ -98,12 +98,13 @@ class complex:
         self.try_mutations=try_mutations
     
     ########################################################################################
-    def configure_folder(self,folder_name,md_route,md_original_pdb_name):
+    def configure_folder(self,folder_name,src_route,md_route,md_original_pdb_name):
         """
         Function to configure the folder with the required information to start a running
         
         Arguments:
         folder_name -- name of the folder that will contain all the information
+        src_route --
         md_route -- route of an MD simulation where the specific data will be acquired to start/restart the protocol
         md_original_pdb_name -- name of the pdb file that will be used as starting point for the design
         
@@ -120,7 +121,7 @@ class complex:
         if self.mode=="start":
             # Create folder and copy the initial standard files
             os.system("rm -r design_output/{folder}; mkdir design_output/{folder}".format(folder=folder_name))
-            os.system("cp -r src/start/mdp design_output/{}".format(folder_name))
+            os.system("cp -r {}/src/start/mdp design_output/{}".format(src_route,folder_name))
             
             # Modify the npt file time
             mdp_npt=MDP()
@@ -143,7 +144,7 @@ class complex:
         if self.mode=="restart":
             # Create folder and copy the initial standard files
             os.system("rm -r design_output/{folder}; mkdir design_output/{folder}".format(folder=folder_name))
-            os.system("cp -r src/start/mdp design_output/{}".format(folder_name))
+            os.system("cp -r {}/src/start/mdp design_output/{}".format(src_route,folder_name))
             
             # Modify the npt file time
             mdp_npt=MDP()
@@ -179,7 +180,7 @@ class complex:
             pass
 
     ########################################################################################    
-    def setup(self,folder_path):
+    def setup(self,folder_path,src_route):
         """
         Configure the protein for starting the simulation. Based on the input files it generates the index file with the respective groups
         
@@ -193,6 +194,7 @@ class complex:
         # Store the path of the folder with the information
         self.folder_path=folder_path
         self.path="design_output/{}".format(folder_path)
+        self.src_route=src_route
         
         # Read the structure
         parser = PDBParser()
@@ -453,7 +455,7 @@ class complex:
                     os.system("sed -i 's/OC2 {} C/OXT {} C/g' {}/model{}.pdb".format(resC.strip(),resC.strip(),self.path,str(model_number)))
                     
                     # Call the scoring functions
-                    sc=scoring.score_protein_protein(p,self.path,self.chain_join,self.binder)
+                    sc=scoring.score_protein_protein(p,self.path,self.src_route,self.chain_join,self.binder)
                     
                     # Calculate the designated scores. If only complex the scores are assigned 0 values
                     for s in score_list:
@@ -582,7 +584,7 @@ class complex:
                 report.close()
     
     ########################################################################################
-    def mutation_random(self,residues_mod,mutation_document,score_dictionary,half_flag,scwrl_path):
+    def mutation_random(self,residues_mod,mutation_document,score_dictionary,half_flag,mutation_method,scwrl_path):
         """
         Function to mutate any amino acid of a peptide sequence randomly
         
@@ -674,17 +676,15 @@ class complex:
                 
                 # Call the mutation module and run the required steps before running the simulation
                 local_mutation=mutation.mutate_peptide(self.path,pep_single_mutation_1,pep_single_mutation_2,self.initial_res_pos_binder+position-1,
-                                                       self.binder,reference,old_aa,new_aa,self.iteration,self.chain_join,last_good_iteration,scwrl_path)
+                                                       self.binder,reference,old_aa,new_aa,self.iteration,self.chain_join,last_good_iteration,scwrl_path,
+                                                       self.src_route)
                 
                 # Mutate and run the local minimizations
                 local_mutation.replace_amino_acid()
-                #local_mutation.mutate_scwrl()
-                local_mutation.mutate_faspr()
-                
-                #import sys
-                #sys.exit()
-                #break
-                
+                if mutation_method=="faspr":
+                    local_mutation.mutate_faspr()
+                if mutation_method=="scwrl":
+                    local_mutation.mutate_scwrl()
                 
                 try:
                     local_mutation.run_minim_complex(True)
@@ -711,7 +711,7 @@ class complex:
             
                         # Configure the new system
                         mutated_system=complex(self.binder,"system",self.iteration,self.score_list,self.consensus_threshold,self.num_mutations,self.score_mode,self.sim_time,self.mode,self.try_mutations)
-                        mutated_system.setup(self.folder_path)
+                        mutated_system.setup(self.folder_path,self.src_route)
                         print("Running NVT equilibration ...")
                         mutated_system.run_nvt(True)
                         flag_restart_mutation=1

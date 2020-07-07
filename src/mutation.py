@@ -52,7 +52,7 @@ gromacs.start_logging()
 # Class and functions
 class mutate_peptide:
     ########################################################################################
-    def __init__(self,path,pep_original,pep_reference,pep_position,pep_chain,pep_pdb,old_aa,new_aa,iteration,chain_join,last_iteration,scwrl_path):
+    def __init__(self,path,pep_original,pep_reference,pep_position,pep_chain,pep_pdb,old_aa,new_aa,iteration,chain_join,last_iteration,scwrl_path,src_route):
         """
         Initializer of the mutation protocol
         
@@ -82,6 +82,7 @@ class mutate_peptide:
         self.chain_join=chain_join
         self.last_iteration=last_iteration
         self.scwrl_path=scwrl_path
+        self.path_scores=src_route
     
     ########################################################################################   
     def replace_amino_acid(self):
@@ -149,7 +150,7 @@ class mutate_peptide:
             os.system("sed -i 's/CD  ILE/CD1 ILE/g' {}/pre-mutated.pdb".format(self.path))
 
         # Separate the chains
-        os.system("python3 src/scores/get_chains.py {}/pre-mutated.pdb {}".format(self.path,self.path))
+        os.system("python3 {}/src/scores/get_chains.py {}/pre-mutated.pdb {}".format(self.path_scores,self.path,self.path))
         
         # Obtain the region of the peptide before the position that will be mutated
         if self.pep_position>=10:
@@ -251,7 +252,7 @@ class mutate_peptide:
             os.system("sed -i 's/CD  ILE/CD1 ILE/g' {}/pre-mutated.pdb".format(self.path))
 
         # Separate the chains
-        os.system("python3 src/scores/get_chains.py {}/pre-mutated.pdb {}".format(self.path,self.path))
+        os.system("python3 {}/src/scores/get_chains.py {}/pre-mutated.pdb {}".format(self.path_scores,self.path,self.path))
         
         # Obtain the region of the peptide before the position that will be mutated
         if self.pep_position>=10:
@@ -291,7 +292,7 @@ class mutate_peptide:
                 os.system("echo 'TER' >> {}/final_target.pdb".format(self.path))
         
         # Run the FASPR program
-        os.system("./src/scores/FASPR -i {}/pre-mutated.pdb -o {}/pre-mutated_mod.pdb".format(self.path,self.path))
+        os.system("{}/src/scores/FASPR -i {}/pre-mutated.pdb -o {}/pre-mutated_mod.pdb".format(self.path_scores,self.path,self.path))
         
         # Join the parts again, and the peptide with the target, creating the complex.pdb file
         if self.pep_position>=10:
@@ -333,7 +334,7 @@ class mutate_peptide:
         """
         
         # Get the chain with the peptide to generate a novel itp file
-        os.system("python3 src/scores/get_chains.py {}/complex.pdb {}".format(self.path,self.path))
+        os.system("python3 {}/src/scores/get_chains.py {}/complex.pdb {}".format(self.path_scores,self.path,self.path))
         rc,sout,serr=gromacs.pdb2gmx(f=self.path+"/complex_"+self.pep_chain+".pdb", p=self.path+"/binder.top", o=self.path+"/complex_"+self.pep_chain+".gro", stdout=False, input=('6','6'))
         os.system("sed -i '/forcefield/d' {}/binder.top".format(self.path))
         os.system("sed -i '/\[ system \]/,$d' {}/binder.top".format(self.path))
