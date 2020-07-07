@@ -32,14 +32,15 @@ __version__ = "1.0"
 __email__ = "rodrigo.ochoa@udea.edu.co"
 
 ########################################################################################
-# Modules to import
+# General modules to import
 ########################################################################################
-from src import scoring
-from src import mutation
-from src import general
+#from src import scoring
+#from src import mutation
+#from src import general
 import argparse
 import yaml
 import os
+import sys
 
 ########################################################################################
 ########################################################################################
@@ -81,6 +82,7 @@ if __name__ == '__main__':
         exit()
     if args.src_route:
         src_route=args.src_route
+        sys.path.append(src_route)
     else:
         print("The parameter 'src_route' is required for the analysis. Exiting ...")
         exit()
@@ -168,6 +170,12 @@ if __name__ == '__main__':
         print("The Gromacs path has not been provided. In that case the software will be called using the system path")
         os.environ['GMX_MAXBACKUP'] = "-1"
     
+    ####################################################################################
+    # Import local scripts
+    from src import scoring
+    from src import mutation
+    from src import general
+
     ####################################################################################
     # Starting the design
     ####################################################################################

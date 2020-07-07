@@ -120,6 +120,7 @@ class complex:
         # Check the mode the protocol will run
         if self.mode=="start":
             # Create folder and copy the initial standard files
+            os.system("mkdir design_output")
             os.system("rm -r design_output/{folder}; mkdir design_output/{folder}".format(folder=folder_name))
             os.system("cp -r {}/src/start/mdp design_output/{}".format(src_route,folder_name))
             

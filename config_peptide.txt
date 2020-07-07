@@ -1,5 +1,5 @@
 folder: 1ppg_design
-src_route: /home/rodrigo/Desktop/Rodrigo/Proyectos/PARCE-1
+src_route: /home/rochoa/Projects/PARCE-1
 mode: start
 peptide_reference: AAPAAAPP
 pdbID: 1ppg_AAPAAAPP
@@ -9,7 +9,7 @@ num_mutations: 30
 try_mutations: 10
 half_flag: 1
 residues_mod: 1,2,3,4,5,6,7,8
-md_route: /home/rodrigo/Desktop/Rodrigo/Proyectos/PARCE-1/design_input/peptide_protein
+md_route: /home/rochoa/Projects/PARCE-1/design_input/peptide_protein
 md_original: peptide_example
 score_list: bach,pisa,zrank,irad,bmf-bluues,firedock
 threshold: 3

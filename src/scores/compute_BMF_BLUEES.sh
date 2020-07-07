@@ -1,8 +1,8 @@
 #!/bin/bash
 
-./$2/score_bmf_3 $1.pdb $1.bmf3 >/dev/null
+$2/score_bmf_3 $1.pdb $1.bmf3 >/dev/null
 pdb2pqr --ff=CHARMM $1.pdb $1.pqr
-./$2/bluues_new_2 $1.pqr $1 >/dev/null
+$2/bluues_new_2 $1.pqr $1 >/dev/null
 
 # Read BMF
 bmf=`awk '{print $2}' $1.bmf3`

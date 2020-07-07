@@ -70,7 +70,7 @@ class score_protein_protein:
         """
         path_target=self.path+"/"+self.pdbID
         target=",".join(self.chain_target)
-        bash = "./{}/pisaEnergy_linux {}.pdb {} {} {}/pisa.params".format(self.path_scores,path_target,target,self.chain_binder,self.path_scores)
+        bash = "{}/pisaEnergy_linux {}.pdb {} {} {}/pisa.params".format(self.path_scores,path_target,target,self.chain_binder,self.path_scores)
         output = subprocess.check_output(['bash','-c', bash])
         self.pisa_score="{:.3f}".format(float(output))
         
@@ -84,7 +84,7 @@ class score_protein_protein:
         """
         path_target=self.path+"/"+self.pdbID
         os.system("echo {}.pdb > {}/list.txt".format(path_target,self.path))
-        os.system("./{}/bach -PDBLIST {}/list.txt -COMPUTE_ENE -FILE_PAR {}/BSS.par -FILE_PAR_AT {}/ATOMIC_PARAMETERS_BSS -STRICT_INTERFACE -o {}/output.bss".format(self.path_scores,self.path,self.path_scores,self.path_scores,self.path))
+        os.system("{}/bach -PDBLIST {}/list.txt -COMPUTE_ENE -FILE_PAR {}/BSS.par -FILE_PAR_AT {}/ATOMIC_PARAMETERS_BSS -STRICT_INTERFACE -o {}/output.bss".format(self.path_scores,self.path,self.path_scores,self.path_scores,self.path))
         bash="head -2 {}/output.bss | tail -1 | awk '{{print $4}}'".format(self.path)
         output = subprocess.check_output(['bash','-c', bash])
         os.system("rm {}/list.txt {}/output.bss".format(self.path,self.path))
@@ -115,7 +115,7 @@ class score_protein_protein:
         os.system("sed -i 's#chainB\.pdb#{}_{}\.pdb#g' {}/FireDock_params.temp".format(path_target,self.chain_binder,self.path))
         os.system("sed -i 's#firedock\.out#{}/firedock\.out#g' {}/FireDock_params.temp".format(self.path,self.path))
         os.system("sed -i 's#\./lib#{}/lib#g' {}/FireDock_params.temp".format(self.path,self.path))
-        os.system("./{}/FireDock {}/FireDock_params.temp".format(self.path_scores,self.path))
+        os.system("{}/FireDock {}/FireDock_params.temp".format(self.path_scores,self.path))
         bash="tail -n1 {}/firedock.out.unref | awk '{{print $11}}'".format(self.path)
         output = subprocess.check_output(['bash','-c', bash])
         os.system("rm -r {}/FireDock_params.temp {}/lib {}/firedock.out.* log {}_*.pdb {}/chains.seq".format(self.path,self.path,self.path,path_target,self.path))
@@ -140,7 +140,7 @@ class score_protein_protein:
         os.system("cp {}.pdb .".format(path_target))
         os.system("sed -i 's#route#{}#g' MD.inp".format(out.strip()))
         os.system("sed -i 's#protein#{}\.pdb#g' MD.inp".format(self.pdbID))
-        bash="./{}/goap < MD.inp".format(self.path_scores)
+        bash="{}/goap < MD.inp".format(self.path_scores)
         output=subprocess.check_output(['bash','-c', bash])
         goapData=output.split()
         os.system("rm MD.inp {}.pdb".format(self.pdbID))
@@ -167,7 +167,7 @@ class score_protein_protein:
     
         # Run zrank
         os.system("echo {}_fixed.pdb > {}/list.txt".format(path_target,self.path))
-        os.system("./{}/zrank {}/list.txt".format(self.path_scores,self.path))
+        os.system("{}/zrank {}/list.txt".format(self.path_scores,self.path))
         bash="awk '{{print $2}}' {}/list.txt.zr.out".format(self.path)
         output = subprocess.check_output(['bash','-c', bash])
         os.system("rm {}/list.txt {}/list.txt.zr.out {}_fixed.pdb".format(self.path,self.path,path_target))
@@ -192,7 +192,7 @@ class score_protein_protein:
     
         # Run irad
         os.system("echo {}_fixed.pdb > {}/list.txt".format(path_target,self.path))
-        os.system("./{}/irad {}/list.txt".format(self.path_scores,self.path))
+        os.system("{}/irad {}/list.txt".format(self.path_scores,self.path))
         bash="awk '{{print $2}}' {}/list.txt.irad.out".format(self.path)
         output = subprocess.check_output(['bash','-c', bash])
         os.system("rm {}/list.txt {}/list.txt.irad.out {}_fixed.pdb".format(self.path,self.path,path_target))
