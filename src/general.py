@@ -678,7 +678,12 @@ class complex:
                 
                 # Mutate and run the local minimizations
                 local_mutation.replace_amino_acid()
-                local_mutation.mutate_scwrl()
+                
+                import sys
+                sys.exit()
+                break
+                
+                #local_mutation.mutate_scwrl()
                 try:
                     local_mutation.run_minim_complex(True)
                     local_mutation.add_box_mutation()

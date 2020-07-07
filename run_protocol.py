@@ -168,11 +168,11 @@ if __name__ == '__main__':
     
     # Create complex object with the basic information to start
     protein_complex=general.complex(chain,pdbID,iteration,score_list,threshold,num_mutations,score_mode,sim_time,mode,try_mutations)
-    protein_complex.configure_folder(folder,md_route,md_original)
+    #protein_complex.configure_folder(folder,md_route,md_original)
     protein_complex.setup(folder)
     # Run the first NPT simulation based on the provided data
     print("Starting first npt simulation ...")
-    protein_complex.run_npt(initial=True,run_md=True)
+    protein_complex.run_npt(initial=True,run_md=False)
     print("Getting molecules from simulation ...")
     protein_complex.get_molecules_after_md()
     
@@ -192,4 +192,4 @@ if __name__ == '__main__':
     mutation_document.write("Iteration_{}: Original - Accepted Score: {} Sequence:{}\n".format(iteration,score_sentence,peptide_reference))
     
     # Start the mutation of random amino acids
-    #protein_complex.mutation_random(residues_mod,mutation_document,score_dictionary,half_flag,scwrl_path)
+    protein_complex.mutation_random(residues_mod,mutation_document,score_dictionary,half_flag,scwrl_path)
