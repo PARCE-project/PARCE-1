@@ -1,0 +1,53 @@
+title = Peptide Design Protocol
+; define		= -DPOSRES	; position restrain the protein
+; Run parameters
+integrator = md
+; nsteps      = 10000000 ; 5 ns 2500k (1 ns 500k) 10 ns 5000k 20ns 10kk
+nsteps = 2500000
+; nsteps      = 50000 ; 100 ps
+dt = 0.002
+; Output control
+; nstxout		= 50000		; save coordinates every 2 ps
+; nstvout		= 50000		; save velocities every 2 ps
+nstxtcout = 50000
+nstenergy = 50000
+nstlog = 50000
+; Bond parameters
+continuation = yes
+constraint_algorithm = lincs
+constraints = all-bonds
+lincs_iter = 1
+lincs_order = 4
+; Neighborsearching
+ns_type = grid
+cutoff-scheme = Verlet
+nstlist = 10
+; nstlist		= 5		; 10 fs
+rlist = 0.8
+rcoulomb = 0.8
+rvdw = 0.8
+; Electrostatics
+coulombtype = PME
+pme_order = 4
+fourierspacing = 0.16
+; Temperature coupling is on
+tcoupl = V-rescale
+tc-grps = Protein Non-Protein
+tau_t = 0.1 0.1
+ref_t = 310 310
+; Pressure coupling is off
+pcoupl = Parrinello-Rahman
+pcoupltype = isotropic
+tau_p = 2.0
+ref_p = 1.0
+compressibility = 4.5e-05
+refcoord_scaling = com
+; Periodic boundary conditions
+pbc = xyz
+; Dispersion correction
+DispCorr = EnerPres
+; Velocity generation
+gen_vel = no
+
+; freezegrps 	= Backbone
+; freezedim  	= Y Y Y
