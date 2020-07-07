@@ -217,7 +217,109 @@ class mutate_peptide:
        
         # Delete temporary files
         os.system("rm {path}/final_target.pdb {path}/mutated_binder.pdb {path}/pre-mutated.pdb {path}/pre-mutated_* {path}/start {path}/mut {path}/end {path}/chains.seq {path}/mutant.seq".format(path=self.path))
+    
+    ########################################################################################
+    def mutate_faspr(self):
+        """
+        Function to generate the new amino acid side chain using FASPR
         
+        Output:
+        complex.pdb -- file containing the complex with the respective mutation
+        """
+        aminoacids={"A":"ALA","D":"ASP","E":"GLU","F":"PHE","H":"HIS","I":"ILE","K":"LYS","L":"LEU","M":"MET","G":"GLY",
+                    "N":"ASN","P":"PRO","Q":"GLN","R":"ARG","S":"SER","T":"THR","V":"VAL","W":"TRP","Y":"TYR","C":"CYS"}
+        
+        # Get the last amino acid of the peptide
+        sequence=self.pep_reference
+        s = list(sequence)
+        seq_size=len(s)
+        lastAA=aminoacids[s[-1]]
+        
+        # Modify atom name of the last AA to avoid errors
+        if seq_size>=10:
+            if seq_size>=100:
+                os.system("sed -i 's/OC1 {} {} {}/O   {} {} {}/g' {}/pre-mutated.pdb".format(lastAA,self.pep_chain,str(seq_size),lastAA,self.pep_chain,str(seq_size),self.path))
+                os.system("sed -i 's/OC2 {} {} {}/OXT {} {} {}/g' {}/pre-mutated.pdb".format(lastAA,self.pep_chain,str(seq_size),lastAA,self.pep_chain,str(seq_size),self.path))
+                os.system("sed -i 's/CD  ILE/CD1 ILE/g' {}/pre-mutated.pdb".format(self.path))
+            else:
+                os.system("sed -i 's/OC1 {} {}  {}/O   {} {}  {}/g' {}/pre-mutated.pdb".format(lastAA,self.pep_chain,str(seq_size),lastAA,self.pep_chain,str(seq_size),self.path))
+                os.system("sed -i 's/OC2 {} {}  {}/OXT {} {}  {}/g' {}/pre-mutated.pdb".format(lastAA,self.pep_chain,str(seq_size),lastAA,self.pep_chain,str(seq_size),self.path))
+                os.system("sed -i 's/CD  ILE/CD1 ILE/g' {}/pre-mutated.pdb".format(self.path))
+        else:
+            os.system("sed -i 's/OC1 {} {}   {}/O   {} {}   {}/g' {}/pre-mutated.pdb".format(lastAA,self.pep_chain,str(seq_size),lastAA,self.pep_chain,str(seq_size),self.path))
+            os.system("sed -i 's/OC2 {} {}   {}/OXT {} {}   {}/g' {}/pre-mutated.pdb".format(lastAA,self.pep_chain,str(seq_size),lastAA,self.pep_chain,str(seq_size),self.path))
+            os.system("sed -i 's/CD  ILE/CD1 ILE/g' {}/pre-mutated.pdb".format(self.path))
+
+        # Separate the chains
+        os.system("python3 src/scores/get_chains.py {}/pre-mutated.pdb {}".format(self.path,self.path))
+        
+        # Obtain the region of the peptide before the position that will be mutated
+        if self.pep_position>=10:
+            bash = "grep -n \"N   {} {}  {}\" {}/pre-mutated_{}.pdb | grep -Eo '^[^:]+'".format(aminoacids[self.new_aa],self.pep_chain,self.pep_position,self.path,self.pep_chain)
+        else:
+            bash = "grep -n \"N   {} {}   {}\" {}/pre-mutated_{}.pdb | grep -Eo '^[^:]+'".format(aminoacids[self.new_aa],self.pep_chain,self.pep_position,self.path,self.pep_chain)
+
+        nini = subprocess.check_output(['bash','-c', bash])
+        os.system("head -n{} {}/pre-mutated_{}.pdb > {}/start".format(int(nini)-1,self.path,self.pep_chain,self.path))
+        
+        # Obtain the region of the peptide after the position that will be mutated
+        if self.pep_position>=10:
+            bash = "grep -n \"O   {} {}  {}\" {}/pre-mutated_{}.pdb | grep -Eo '^[^:]+'".format(aminoacids[self.new_aa],self.pep_chain,self.pep_position,self.path,self.pep_chain)
+        else:
+            bash = "grep -n \"O   {} {}   {}\" {}/pre-mutated_{}.pdb | grep -Eo '^[^:]+'".format(aminoacids[self.new_aa],self.pep_chain,self.pep_position,self.path,self.pep_chain)
+
+        nfin = subprocess.check_output(['bash','-c', bash])
+        bash = "wc -l {}/pre-mutated_{}.pdb | awk '{{print $1}}'".format(self.path,self.pep_chain)
+        tot = subprocess.check_output(['bash','-c', bash])
+        os.system("tail -n{} {}/pre-mutated_{}.pdb > {}/end".format(int(tot)-int(nfin),self.path,self.pep_chain,self.path))
+        
+        # Obtain the sequence of the peptide with the new position in upper case
+        sequence=self.pep_reference.lower() 
+        s = list(sequence)
+        s[self.pep_position-1]=self.new_aa
+        sequence="".join(s)
+        print(sequence)
+        os.system("echo {} > {}/mutant.seq".format(sequence,self.path))
+        
+        # Join the target chains in one file
+        for i,ch in enumerate(self.chain_join):
+            if i==0:            
+                os.system("grep ATOM {}/pre-mutated_{}.pdb > {}/final_target.pdb".format(self.path,ch,self.path))
+                os.system("echo 'TER' >> {}/final_target.pdb".format(self.path))
+            else:
+                os.system("grep ATOM {}/pre-mutated_{}.pdb >> {}/final_target.pdb".format(self.path,ch,self.path))
+                os.system("echo 'TER' >> {}/final_target.pdb".format(self.path))
+        
+        # Run the FASPR program
+        os.system("./src/scores/FASPR -i {}/pre-mutated.pdb -o {}/pre-mutated_mod.pdb".format(self.path,self.path))
+        
+        # Join the parts again, and the peptide with the target, creating the complex.pdb file
+        if self.pep_position>=10:
+            os.system("grep \"{} {}  {}\" {}/pre-mutated_mod.pdb > {}/mut".format(aminoacids[self.new_aa],self.pep_chain,self.pep_position,self.path,self.path))
+        else:
+            os.system("grep \"{} {}   {}\" {}/pre-mutated_mod.pdb > {}/mut".format(aminoacids[self.new_aa],self.pep_chain,self.pep_position,self.path,self.path))
+
+        os.system("cat {}/start {}/mut {}/end | grep -v END > {}/mutated_binder.pdb".format(self.path,self.path,self.path,self.path))
+        os.system("cat {}/final_target.pdb {}/mutated_binder.pdb > {}/complex.pdb".format(self.path,self.path,self.path))
+        
+        if seq_size>=10:
+            if seq_size>=100:
+                os.system("sed -i 's/O   {} {} {}/OC1 {} {} {}/g' {}/complex.pdb".format(lastAA,self.pep_chain,str(seq_size),lastAA,self.pep_chain,str(seq_size),self.path))
+                os.system("sed -i 's/OXT {} {} {}/OC2 {} {} {}/g' {}/complex.pdb".format(lastAA,self.pep_chain,str(seq_size),lastAA,self.pep_chain,str(seq_size),self.path))
+                os.system("sed -i 's/CD1 ILE/CD  ILE/g' {}/complex.pdb".format(self.path))
+            else:
+                os.system("sed -i 's/O   {} {}  {}/OC1 {} {}  {}/g' {}/complex.pdb".format(lastAA,self.pep_chain,str(seq_size),lastAA,self.pep_chain,str(seq_size),self.path))
+                os.system("sed -i 's/OXT {} {}  {}/OC2 {} {}  {}/g' {}/complex.pdb".format(lastAA,self.pep_chain,str(seq_size),lastAA,self.pep_chain,str(seq_size),self.path))
+                os.system("sed -i 's/CD1 ILE/CD  ILE/g' {}/complex.pdb".format(self.path))
+        else:
+            os.system("sed -i 's/O   {} {}   {}/OC1 {} {}   {}/g' {}/complex.pdb".format(lastAA,self.pep_chain,str(seq_size),lastAA,self.pep_chain,str(seq_size),self.path))
+            os.system("sed -i 's/OXT {} {}   {}/OC2 {} {}   {}/g' {}/complex.pdb".format(lastAA,self.pep_chain,str(seq_size),lastAA,self.pep_chain,str(seq_size),self.path))
+            os.system("sed -i 's/CD1 ILE/CD  ILE/g' {}/complex.pdb".format(self.path))
+
+       
+        # Delete temporary files
+        os.system("rm {path}/final_target.pdb {path}/mutated_binder.pdb {path}/pre-mutated.pdb {path}/pre-mutated_* {path}/start {path}/mut {path}/end {path}/chains.seq {path}/mutant.seq".format(path=self.path))
+    
     ########################################################################################
     def run_minim_complex(self,run_minim=False):
         """
