@@ -18,7 +18,9 @@ Here we present PARCE, an open source Protocol for Amino acid Refinement through
 
 **NOTE: Path to both executables can be provided in the configuration file**
 
-Scwrl4 can be installed freely after filling a form available in the website to obtain an academic license. **Please verify the permissions to run the program**. Gromacs 5.1.4 **(version tested in the protocol)** can be compiled and installed using the source code. The scoring functions are provided in the **src** folder and configured to run the analysis.
+Scwrl4 can be installed freely after filling a form available in the website to obtain an academic license. **Please verify the permissions to run the program**. Gromacs 5.1.4 **(version tested in the protocol)** can be compiled and installed using the source code. The scoring functions are provided in the **src** folder and configured to run the analysis. 
+
+**NOTE: An additional open source method to perform the single-point mutations, named FASPR (https://zhanglab.ccmb.med.umich.edu/FASPR/), is available in the code. The executable is included within the src folder and is the recommended option in case Scwrl4 cannot be installed.
 
 The BioPython and additional python modules can be installed directly from the OS repositories. An example in Ubuntu 16.04 is:
 
@@ -71,7 +73,8 @@ The configuration file describe all the parameters required to run the protocol.
 
 A configuration file is required with the following parameters:
 
-- **folder**: Name of the folder that has all the input and output files of the protocol.
+- **folder**: Name of the folder where all the output files of the protocol will be stored.
+- **src_route**: Route of the PARCE folder where the *src* folder is located. This allows running the protocol in any location
 - **mode**: The design mode, which has three possible options: *start* (start the protocol from zero), *restart* (start from a particular iteration of a previous run) and *nothing* (just run without modifying existing files).
 - **peptide_reference**: The sequence of the peptide, or protein fragment that will be modified.
 - **pdbID**: Name of the structure that is used as input, which contains the protein, the peptide/sprotein and the solvent molecules.
@@ -85,6 +88,7 @@ A configuration file is required with the following parameters:
 - **score_list**: List of the scoring functions that will be used to calculate the consensus. Currently the package only has available the code for six of them: BACH, Pisa, ZRANK, IRAD, BMF-BLUUES and FireDock. *At least two should be selected.*
 - **half_flag**: Flag that controls which part of the trajectory is used to obtain the average score. If *0*, the full trajectory is used, if *1*, only the last half.
 - **threshold**: Threshold used for the consensus. If the number of scoring functions in agreement are equal or greater than the threshold, then the mutation is accepted.
+- **mutation_method**: Protocol to perform the single-point mutations. There are 2 options: *faspr* (included within the code), and *scwrl4* (requires external installation)
 
 *Optional arguments:*
 -  **scwrl_path**: Provide the path to Scwrl4 in case it is not installed in a PATH folder. By default the system will use the system path to call the program
@@ -94,6 +98,7 @@ The following is an example of the configuration file *(config_peptide.txt)* for
 
 ```
 folder: 1ppg_design
+src_route: <local_path>/PARCE-1
 mode: start
 peptide_reference: AAPAAAPP
 pdbID: 1ppg_AAPAAAPP
@@ -101,16 +106,17 @@ chain: B
 sim_time: 5
 num_mutations: 30
 try_mutations: 10
+half_flag: 1
 residues_mod: 1,2,3,4,5,6,7,8
-md_route: ./design_output/peptide_protein
-md_original: 1ppg_AAPAAAPP
+md_route: <local_path>/PARCE-1/design_input/peptide_protein
+md_original: peptide_example
 score_list: bach,pisa,zrank,irad,bmf-bluues,firedock
-half_flag: 0
 threshold: 3
+mutation_method: faspr
 scwrl_path: /usr/local/bin/scwrl4/Scwrl4
 gmxrc_path: /usr/local/gromacs/bin/GMXRC
 ```
-If any of these parameters are missing, the protocol stops and prints a warning messsage to the user.
+If any of these parameters are missing, the protocol stops and prints a warning messsage to the user. **The <local_path>/PARCE-1 should be updated based on each user folder location**
 
 In addition, another configuration file called *(config_protein.txt)* can be used to run a protein-protein example based on a nanobody protein interaction. The configuration file contains all the required information to run the analysis based on the starting structural data provided in the folder `design_output/protein_protein`
 
@@ -134,7 +140,7 @@ In addition, a file named `gromacs.log` stores the logging of all the Gromacs co
 A number of tests are provided to check the PARCE functionalities of the third-party tools. These are:
 
 - Call to Gromacs functions to configure an example input file
-- Attempt a mutation using the Scwrl4 program
+- Attempt a mutation using the FASPR/Scwlr4 program
 - Calculate all the scoring functions using the initial system provided
 
 The test can be run using the following command: `python3 test.py`. A report with the results per test is generated in the main folder with the name `report_test.txt`.
@@ -179,6 +185,7 @@ If you implement this protocol and publish the results, these references to exte
 
 - Gromacs: Hess et al., J. Chem. Theory Comput., 4, 435–447, 2008
 - Scwrl4: Krivov et al., Proteins: Struct. Funct. Bioinf., 77 (4), 778–795, 2009.
+- FASPR: Huang, Pearce and Zhang. Bioinformatics, 36, 3758-3765, 2020.
 - Bach:  Cossio et. al., Sci. Rep., 2, 1–8. 2012.  Sarti et al., Comput. Phys. Commun., 184 (12), 2860–2865. 2013. Sarti et. al, Proteins: Struct. Funct. Bioinf., 83 (4), 621–630, 2015.
 - Pisa: Krissinel and  Henrick, J. Mol. Biol., 372 (3), 774–797, 2007
 - Firedock: Andrusier et al., Proteins: Struct. Funct. Bioinf., 69 (1), 139–159, 2007. 
