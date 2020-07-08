@@ -20,7 +20,7 @@ Here we present PARCE, an open source Protocol for Amino acid Refinement through
 
 Scwrl4 can be installed freely after filling a form available in the website to obtain an academic license. **Please verify the permissions to run the program**. Gromacs 5.1.4 **(version tested in the protocol)** can be compiled and installed using the source code. The scoring functions are provided in the **src** folder and configured to run the analysis. 
 
-**NOTE: An additional open source method to perform the single-point mutations, named FASPR (https://zhanglab.ccmb.med.umich.edu/FASPR/), is available in the code. The executable is included within the src folder and is the recommended option in case Scwrl4 cannot be installed.
+**NOTE: An additional open source method to perform the single-point mutations, named FASPR (https://zhanglab.ccmb.med.umich.edu/FASPR/), is available in the code. The executable is included within the src folder and is the recommended option in case Scwrl4 cannot be installed.**
 
 The BioPython and additional python modules can be installed directly from the OS repositories. An example in Ubuntu 16.04 is:
 
@@ -116,7 +116,7 @@ mutation_method: faspr
 scwrl_path: /usr/local/bin/scwrl4/Scwrl4
 gmxrc_path: /usr/local/gromacs/bin/GMXRC
 ```
-If any of these parameters are missing, the protocol stops and prints a warning messsage to the user. **The <local_path>/PARCE-1 should be updated based on each user folder location**
+If any of these parameters are missing, the protocol stops and prints a warning messsage to the user. **The <local_path>/PARCE-1 should be updated based on the location of the PARCE-1 folder**.
 
 In addition, another configuration file called *(config_protein.txt)* can be used to run a protein-protein example based on a nanobody protein interaction. The configuration file contains all the required information to run the analysis based on the starting structural data provided in the folder `design_output/protein_protein`
 
