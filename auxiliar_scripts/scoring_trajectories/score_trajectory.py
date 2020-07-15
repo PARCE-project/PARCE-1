@@ -125,12 +125,12 @@ def score_complex(score_list,pdb_name,src_route,path,chain_join,binder):
 if __name__ == '__main__':
     
     # Main parameters: TO MODIFY
-    src_route="/home/rodrigo/Desktop/Rodrigo/Proyectos/PARCE-1" # Local path of your PARCE installation folder
+    src_route="/home/PARCE-1" # Local path of your PARCE installation folder
     sys.path.append(src_route)
     from src import scoring
     
     score_list=["bach","pisa","zrank","irad","bmf-bluues","firedock"] # Select the ones of interest
-    path="/home/rodrigo/Desktop/Rodrigo/Proyectos/PARCE-1/auxiliar_scripts/scoring_trajectories"
+    path="/home/PARCE-1/auxiliar_scripts/scoring_trajectories" # Please change based on your local installation
     pdb_name="example_trajectory" # Name of the PDB trajectory file or single file
     target_chains=["A"] # List with the ids of the target chains
     binder_chain="B" # Chain id of the peptide

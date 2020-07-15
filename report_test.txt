@@ -5,6 +5,7 @@ Pisa score: -0.223
 ZRANK score: -37.977
 IRAD score: -52.373
 Firedock score: -37.050
+BMF-BLUUES score: -25.798
 The scoring functions test passed successfully
 ####################################
 Everything is ready. You can start the protocol :)

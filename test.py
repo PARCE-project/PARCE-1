@@ -50,7 +50,7 @@ if __name__ == '__main__':
     sim_time="5"
     num_mutations=5
     try_mutations=10
-    src_route="/home/rodrigo/Desktop/Rodrigo/Proyectos/PARCE-1"
+    src_route="/home/PARCE-1"
     #src_route="/home/rochoa/Projects/PARCE-1"
     
     # Additional variables for the main script
@@ -60,7 +60,7 @@ if __name__ == '__main__':
     folder="test_result"
     mode="start"
     peptide_reference="AAPAAAPP"
-    md_route="/home/rodrigo/Desktop/Rodrigo/Proyectos/PARCE-1/design_input/peptide_protein"
+    md_route="/home/PARCE-1/design_input/peptide_protein"
     #md_route="/home/rochoa/Projects/PARCE-1/design_input/peptide_protein"
     md_original="peptide_example"
     
@@ -101,7 +101,6 @@ if __name__ == '__main__':
     # 2. Test mutation functionality
     if mutation_method=="faspr":
         try:
-        if flag_step2==0:
             print("2. Starting the test of FASPR functionalities ...")
             parser = PDBParser()
             reference = parser.get_structure('REF',"design_output/{}/{}.pdb".format(folder,pdbID))

@@ -1,5 +1,5 @@
 folder: vhh_design
-src_route: /home/rochoa/Projects/PARCE-1
+src_route: /home/PARCE-1
 mode: start
 peptide_reference: GNHPLYYA
 pdbID: vhh_GNHPLYYA
@@ -9,7 +9,7 @@ num_mutations: 30
 try_mutations: 10
 half_flag: 0
 residues_mod: 54,55,56,57,58,59,60,61
-md_route: /home/rochoa/Projects/PARCE-1/design_input/protein_protein
+md_route: /home/PARCE-1/design_input/protein_protein
 md_original: vhh_protein
 score_list: bach,pisa,zrank,irad,bmf-bluues,firedock
 threshold: 3

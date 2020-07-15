@@ -17,7 +17,7 @@ from statistics import stdev
 from statistics import variance
 
 # Variables TO MODIFY
-path="/home/rodrigo/Desktop/Rodrigo/Proyectos/PARCE-1/auxiliar_scripts/plot_scores"
+path="/home/PARCE-1/auxiliar_scripts/plot_scores"
 score_list=["bach","pisa","zrank","irad","bmf-bluues","firedock"]
 
 # Score lists
