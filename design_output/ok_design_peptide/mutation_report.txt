@@ -1,3 +1,0 @@
-Structure: 1ppg_AAPAAAPP
-Iteration_0: Original - Accepted Score: zrank:-55.8655 bmf:-19.243692307692307 pisa:-0.2038076923076923 firedock:-47.48230769230769 bluues:-154.8228076923077 totalbmfbluues:-28.806461538461537 bach:-1.8021538461538462 irad:-79.36161538461539  Sequence:AAPAAAPP
-Attempt mutation PB8E Steps 16

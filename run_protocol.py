@@ -210,4 +210,4 @@ if __name__ == '__main__':
     mutation_document.write("Iteration_{}: Original - Accepted Score: {} Sequence:{}\n".format(iteration,score_sentence,peptide_reference))
     
     # Start the mutation of random amino acids
-    #protein_complex.mutation_random(residues_mod,mutation_document,score_dictionary,half_flag,mutation_method,scwrl_path)
+    protein_complex.mutation_random(residues_mod,mutation_document,score_dictionary,half_flag,mutation_method,scwrl_path)

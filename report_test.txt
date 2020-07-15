@@ -1,12 +1,11 @@
 The Gromacs test passed successfully
-The Scwrl4 test passed successfully
+The FASPR test passed successfully
+BACH score: -0.828
+Pisa score: -0.223
+ZRANK score: -37.977
+IRAD score: -52.373
+Firedock score: -37.050
 The scoring functions test passed successfully
-Pisa score: -0.257
-BACH score: -1.665
-Firedock score: -47.470
-ZRANK score: -54.248
-IRAD score: -79.561
-BMF-BLUUES score: -28.175
 ####################################
 Everything is ready. You can start the protocol :)
 ####################################
