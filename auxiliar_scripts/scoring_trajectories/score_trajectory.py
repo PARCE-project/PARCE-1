@@ -74,9 +74,9 @@ def read_score_trajectory(pdb_file,score_list,src_route,path,chain_join,binder):
                     total_score[s].append(float(sc.irad_score))
                 if s=="bmf-bluues":
                     sc.computeBMF()    
-                    total_score["totalbmfbluues"].append(float(sc.totalbmfbluues_score))
-                    total_score["bmf"].append(float(sc.bmf_score))
-                    total_score["bluues"].append(float(sc.bluues_score))
+                    total_score["bmf-bluues"].append(float(sc.totalbmfbluues_score))
+                    #total_score["bmf"].append(float(sc.bmf_score))
+                    #total_score["bluues"].append(float(sc.bluues_score))
 
             # Reset everything for next model
             model_number += 1
@@ -88,9 +88,9 @@ def read_score_trajectory(pdb_file,score_list,src_route,path,chain_join,binder):
     # Store the score of the target
     for s in score_list:
         if s=="bmf-bluues":
-            score_dictionary["totalbmfbluues"]=mean(total_score["totalbmfbluues"])
-            score_dictionary["bmf"]=mean(total_score["bmf"])
-            score_dictionary["bluues"]=mean(total_score["bluues"])
+            score_dictionary["bmf-bluues"]=mean(total_score["bmf-bluues"])
+            #score_dictionary["bmf"]=mean(total_score["bmf"])
+            #score_dictionary["bluues"]=mean(total_score["bluues"])
         else:
             score_dictionary[s]=mean(total_score[s])
         
@@ -129,7 +129,7 @@ if __name__ == '__main__':
     sys.path.append(src_route)
     from src import scoring
     
-    score_list=["bach","pisa","zrank","irad","bmf-bluues","firedock"] # Select the ones of interest
+    score_list=["bach","pisa","zrank","irad","firedock","bmf-bluues"] # Select the ones of interest
     path="/home/PARCE-1/auxiliar_scripts/scoring_trajectories" # Please change based on your local installation
     pdb_name="example_trajectory" # Name of the PDB trajectory file or single file
     target_chains=["A"] # List with the ids of the target chains
