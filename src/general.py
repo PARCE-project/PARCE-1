@@ -139,7 +139,7 @@ class complex:
             # Copy the files from the MD
             os.system("cp {}/{}.pdb design_output/{}/{}.pdb".format(md_route,md_original_pdb_name,folder_name,self.pdbID))
             # Generate the gro file
-            rc,sout,serr=gromacs.editconf(f="{}/{}.gro".format(md_route,md_original_pdb_name), o="design_output/{}/{}.gro".format(folder_name,self.pdbID), stdout=False)
+            rc,sout,serr=gromacs.editconf(f="{}/{}.pdb".format(md_route,md_original_pdb_name), o="design_output/{}/{}.gro".format(folder_name,self.pdbID), stdout=False)
             #os.system("cp {}/{}.gro design_output/{}/{}.gro".format(md_route,md_original_pdb_name,folder_name,self.pdbID))
             os.system("cp {}/topol_Protein_chain_* {}/topol.top design_output/{}".format(md_route,md_route,folder_name))
         
