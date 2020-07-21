@@ -11,9 +11,9 @@
 
 Here we present PARCE, an open source Protocol for Amino acid Refinement through Computational Evolution that implements an advanced and promising method for the design of peptides and proteins. The protocol performs a random mutation in the binder sequence, then samples the bound conformations using molecular dynamics simulations, and evaluates the protein-protein interactions from multiple scoring. Finally, it accepts or rejects the mutation by applying a consensus criterion based on binding scores. The procedure is iterated with the aim to explore efficiently novel sequences with potential better affinities toward their targets. We also provide a tutorial for running and reproducing the methodology.
 
-## Third-party tools required:
+## Third-party tools:
 
-- Scwrl4: http://dunbrack.fccc.edu/scwrl4/license/index.html
+- Scwrl4 (optional): http://dunbrack.fccc.edu/scwrl4/license/index.html
 - Gromacs 5.1.4 (tested version): http://manual.gromacs.org/documentation/5.1.4/download.html
 
 **NOTE: Path to both executables can be provided in the configuration file**
@@ -40,13 +40,13 @@ pip3 install GromacsWrapper
 To run the protocol, **it is required to previously run a simulation in Gromacs with the system of interest**. After that, the following input files are required:
 
 - A PDB file containing the starting system, including the protein, peptide and solvent. **Ideally renumber the chains to start from position 1 at each chain**
-- A gro file of the PDB template structure
 - The topology files of the structure chains
+- (Optional) A GRO file of the PDB template structure
 - (Optional) Files with itp extensions that selects the atoms restrained during the simulations
 
 ## MDP files for Gromacs MD simulations
 
-The protocol has included a set of mdp files (with fixed names) to run the multiple minimization steps, the NVT equilibrations and the NPT production stages. The parameters have been optimized for the protocol efficiency and accuracy. **However, if these parameters wants to be modified by the user, the source files can be found in the folder src/start/mdp. The default temperature of the system is 310K.**
+The protocol has included a set of mdp files (with fixed names) to run the multiple minimization steps, the NVT equilibrations and the NPT production stages. The parameters have been optimized for the protocol efficiency and accuracy. **However, if these parameters are going to be modified by the user, the source files can be found in the folder src/start/mdp. The default temperature of the system is 310K.**
 
 ## Graphical summary
 
@@ -77,12 +77,12 @@ A configuration file is required with the following parameters:
 - **src_route**: Route of the PARCE folder where the *src* folder is located. This allows running the protocol in any location
 - **mode**: The design mode, which has three possible options: *start* (start the protocol from zero), *restart* (start from a particular iteration of a previous run) and *nothing* (just run without modifying existing files).
 - **peptide_reference**: The sequence of the peptide, or protein fragment that will be modified.
-- **pdbID**: Name of the structure that is used as input, which contains the protein, the peptide/sprotein and the solvent molecules.
-- **chain**: Chain id of the peptide/protein in the structural complex
-- **sim_time**: Time in nanoseconds that will be used to sample the complex after each mutation. *Recommended 5 or 10 ns*
+- **pdbID**: Name of the structure that is used as input, which contains the protein, the peptide/protein binder and the solvent molecules.
+- **chain**: Chain id of the peptide/protein binder in the structural complex
+- **sim_time**: Time in nanoseconds that will be used to sample the complex after each mutation. *Recommended a minimum value of 5 ns*
 - **num_mutations**: Number of mutations that will be attempted
 - **try_mutations**: Number of mutations tried after having minimization or equilibration problems. *These issues can be found depending on the system and the previous sampling of the complex before starting the protocol*
-- **residues_mod**: These are the specific positions of the residues that want to be modified. This depends on the peptide/protein length and the numbering in the PDB file. *It is recommended to renumber the input structure to associate the first position to residue number 1, looking to avoid errors in posterior stages related with the renumbering of the coordinate files*
+- **residues_mod**: These are the specific positions of the residues that will be modified. This depends on the peptide/protein length and the numbering in the PDB file. *It is recommended to renumber the input structure to associate the first position to residue number 1, looking to avoid errors in posterior stages related with the renumbering of the coordinate files*
 - **md_route**: Path to the folder containing the input files, which are the files used during the previous MD sampling of the system.
 - **md_original**: Name of the system file located in the folder containing the previous MD sampling.
 - **score_list**: List of the scoring functions that will be used to calculate the consensus. Currently the package only has available the code for six of them: BACH, Pisa, ZRANK, IRAD, BMF-BLUUES and FireDock. *At least two should be selected.*
@@ -133,7 +133,7 @@ When a design run start, an initial folder is created with the required input fi
 - **log_npt**: Store the log file from each npt run to verify possible errors
 - **log_nvt**: Store the log file from each nvt run to verify possible errors
 
-The design protocol results are summarized in the output file called `mutation_report.txt`, which contains details per mutation step like the type of mutation, the average scores, the peptide/small protein sequence and if the mutation was accepted or not. In addition, the report includes failed attempts based on minimization or equilibration problems. The latest can happen depending on the MD result. To overcome these issues, the protocol automatically attempt a number of mutations using the immediately accepted structure. If after that number the system keeps failing, the new mutations will use the accepted structure before the last structure available. If the problem persist during a number of mutations, the system will stop.
+The design protocol results are summarized in the output file called `mutation_report.txt`, which contains details per mutation step like the type of mutation, the average scores, the peptide/small protein sequence and if the mutation was accepted or not. In addition, the report includes failed attempts based on minimization or equilibration problems. The latest can happen depending on the MD result. To overcome these issues, the protocol automatically attempt a number of mutations using the immediately accepted structure. If after that number the system keeps failing, the new mutations will use the accepted structure before the last structure available. If the problem persist during a number of mutations, the run will stop.
 In addition, a file named `gromacs.log` stores the logging of all the Gromacs commands, and the file `gromacs_general_output.txt` store the latest Gromacs command used, just to track the progress during the run. To guarantee that the additional tools and dependencies are functioning, a set of tests are provided.
 
 ## Tests
@@ -145,11 +145,13 @@ A number of tests are provided to check the PARCE functionalities of the third-p
 
 The test can be run using the following command: `python3 test.py`. A report with the results per test is generated in the main folder with the name `report_test.txt`.
 
-**NOTE: Please change in the test.py script the paths to Scwrl4 and Gromacs based on your local installation. The variables are: scwrl_path and gmxrc_path**
+**NOTE: Please change in the test.py script the paths to PARCE-1, the folder with the input files, and the programs Scwrl4 and Gromacs based on your local installation.**
 
-## Post-analysis of the results
+## Post-analysis of the results and auxiliar scripts
 
 With the final `mutation_report.txt`, it is possible to check and select the accepted sequences, and plot the scores to verify that the energies are getting minimized after the mutation steps. The results are numbered per iteration step, and the folders content facilitates locating the information. Examples of the analysis are provided in the original manuscript.
+
+We also included a folder called `auxiliar_scripts` to perform some additional analysis. One script allows the calculation of the scores for a given MD trajectory or PDB file, printing the score per frame and the final scores averages. With that output, the user can easily implement a consensus by vote based on the trajectories they require to compare. The second script allows the generation of plots showing the evolution of the scores, and the mutations accepted during the design. The input for that analysis is the `mutation_report.txt` file obtained after running a design cycle
 
 ## Docker details
 
@@ -163,15 +165,17 @@ To create the container and start playing with the protocol use the following co
 
 ```docker run -it rochoa85/parce-1 /bin/bash```
 
-After that, you can find the code in the folder: `/home/PARCE-1` and start after following the instructions provided in the README. **In this scenario, the only external software required to be installed is Scwrl4.**
+After that, you can find the code in the folder: `/home/PARCE-1` and start after following the instructions provided in the README. **In this scenario, the only external software required to be installed is Scwrl4, but if FASPR is selected no additional installations is required.**
 
-To exit, just enter the command `exit`. Then you can check the container created with the command `sudo docker ps -a`. The **container-id** is in the first column, which will be used to access later the docker container. To achieve that, first activate the **container-id** with:
+The previous `docker run` command is used **only the first time**. After that, please exit by entering the command `exit`. Then you can check the container created with the command `sudo docker ps -a`. The **container-id** is in the first column, which will be used to access later the docker container, **so the changes made to the container will be stored**. To achieve that, first activate the **container-id** with:
 
 ```docker start container-id```
 
 and then open the bash environment with the following command
 
 ```docker exec -it container-id /bin/bash```
+
+The latest command allows entering again to the container bash environment. The `start` and `exec` commands will be used to keep accessing the container and maintain the modifications and output files generated by the protocol.
 
 **Note: To have instructions about how to use docker in different OS, follow these tutorials:**
 
