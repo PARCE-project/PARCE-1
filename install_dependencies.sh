@@ -16,13 +16,8 @@
 sudo apt-get update
 sudo apt-get install pdb2pqr
 sudo apt-get install python3-biopython
+sudo apt-get install python3-numpy
 sudo apt-get install python3-pip
 sudo apt-get install python3-yaml
 sudo apt-get install python3-tk
 pip3 install GromacsWrapper
-
-########################################################################################
-# Ubuntu 16.04 script to test additional functionalities
-########################################################################################
-
-python3 test.py

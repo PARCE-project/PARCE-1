@@ -8,7 +8,7 @@ Computer Physics Communications
 Authors: Rodrigo Ochoa, Miguel A. Soler, Alessandro Laio, Pilar Cossio
 Year: 2020
 
-Third-party tools required:
+Third-party tools:
 
 - Scwrl4: http://dunbrack.fccc.edu/scwrl4/license/index.html
 - Gromacs 5.1.4 (tested version): http://manual.gromacs.org/documentation/5.1.4/download.html
@@ -29,6 +29,7 @@ __email__ = "rodrigo.ochoa@udea.edu.co"
 # Modules to import
 ########################################################################################
 import os
+import subprocess
 from src import scoring
 from src import mutation
 from src import general
@@ -41,6 +42,9 @@ from Bio.PDB import *
 
 if __name__ == '__main__':
     
+    bash = "pwd | cut -f 1"
+    route = subprocess.check_output(['bash','-c', bash])
+
     # List of variables that should be defined to create the class
     chain="B"
     pdbID="1ppg_AAPAAAPP"
@@ -50,8 +54,7 @@ if __name__ == '__main__':
     sim_time="5"
     num_mutations=5
     try_mutations=10
-    src_route="/home/PARCE-1"
-    #src_route="/home/rochoa/Projects/PARCE-1"
+    src_route=route
     
     # Additional variables for the main script
     residues_mod=[1,2,3,4,5,6,7,8]
@@ -60,8 +63,7 @@ if __name__ == '__main__':
     folder="test_result"
     mode="start"
     peptide_reference="AAPAAAPP"
-    md_route="/home/PARCE-1/design_input/peptide_protein"
-    #md_route="/home/rochoa/Projects/PARCE-1/design_input/peptide_protein"
+    md_route=route+"/design_input/peptide_protein"
     md_original="peptide_example"
     
     iteration=0
