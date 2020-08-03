@@ -16,8 +16,7 @@
 sudo apt-get update
 sudo apt-get install pdb2pqr
 sudo apt-get install python3-biopython
-sudo apt-get install python3-numpy
 sudo apt-get install python3-pip
 sudo apt-get install python3-yaml
 sudo apt-get install python3-tk
-pip3 install GromacsWrapper
+python3 -m pip install GromacsWrapper==0.7 numpy==1.18 scipy==1.4 matplotlib==3.0

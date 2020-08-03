@@ -43,7 +43,7 @@ from Bio.PDB import *
 if __name__ == '__main__':
     
     bash = "pwd | cut -f 1"
-    route = subprocess.check_output(['bash','-c', bash])
+    route = subprocess.check_output(['bash','-c', bash]).strip().decode("utf-8")
 
     # List of variables that should be defined to create the class
     chain="B"
