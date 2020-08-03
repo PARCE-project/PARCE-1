@@ -6,23 +6,31 @@
 * Computer Physics Communications, 2020
 * Authors: Rodrigo Ochoa, Miguel A. Soler, Alessandro Laio, Pilar Cossio
 
-
 ## Purpose
 
 Here we present PARCE, an open source Protocol for Amino acid Refinement through Computational Evolution that implements an advanced and promising method for the design of peptides and proteins. The protocol performs a random mutation in the binder sequence, then samples the bound conformations using molecular dynamics simulations, and evaluates the protein-protein interactions from multiple scoring. Finally, it accepts or rejects the mutation by applying a consensus criterion based on binding scores. The procedure is iterated with the aim to explore efficiently novel sequences with potential better affinities toward their targets. We also provide a tutorial for running and reproducing the methodology.
 
-## Third-party tools:
+## Required third-party tools:
 
-- Scwrl4 (optional): http://dunbrack.fccc.edu/scwrl4/license/index.html
 - Gromacs 5.1.4 (tested version): http://manual.gromacs.org/documentation/5.1.4/download.html
 
-**NOTE: Path to both executables can be provided in the configuration file**
+**NOTE: Path to the executable can be provided in the configuration file**
 
-Scwrl4 can be installed freely after filling a form available in the website to obtain an academic license. **Please verify the permissions to run the program**. Gromacs 5.1.4 **(version tested in the protocol)** can be compiled and installed using the source code. The scoring functions are provided in the **src** folder and configured to run the analysis. 
+**Please verify the permissions to run the program**. Gromacs 5.1.4 **(version tested in the protocol)** can be compiled and installed using the source code. 
 
-**NOTE: An additional open source method to perform the single-point mutations, named FASPR (https://zhanglab.ccmb.med.umich.edu/FASPR/), is available in the code. The executable is included within the src folder and is the recommended option in case Scwrl4 cannot be installed.**
+- The scoring functions (BACH,Firedock,BMF-BLUUES,Pisa,ZRANK,IRAD) are provided in the **src** folder and configured to run the analysis.
 
-The BioPython and additional python modules can be installed directly from the OS repositories. An example in Ubuntu 16.04 is:
+- By default, an open source method to perform the single-point mutations, named FASPR (https://zhanglab.ccmb.med.umich.edu/FASPR/), is available in the code. The executable is included within the **src** folder. 
+
+## Optional third-party tools:
+- Scwrl4 (optional): http://dunbrack.fccc.edu/scwrl4/license/index.html
+
+Scwrl4 can be installed freely after filling a form available in the website to obtain an academic license. Scwrl4 can be used to perform the single-point mutations in replacement of FASPR. 
+
+**NOTE: The method can be changed in the configuration file explained in the sections below. The path to the executable can be provided in the configuration file**
+
+## Dependencies:
+The BioPython and additional python modules (minimum python3.5) can be installed directly from the OS repositories. An example in Ubuntu 16.04 is:
 
 ```
 sudo apt-get install pdb2pqr
@@ -30,23 +38,23 @@ sudo apt-get install python3-biopython
 sudo apt-get install python3-pip
 sudo apt-get install python3-tk
 sudo apt-get install python3-yaml
-pip3 install GromacsWrapper
+python3 -m pip install GromacsWrapper==0.8 numpy==1.18 scipy==1.4 matplotlib==3.0
 ```
 
-**NOTE: A `install_dependencies.sh` file is provided to automatize the installation of dependencies in the Linux (Ubuntu) operating system**
+**NOTE: A `install_dependencies.sh` file is provided to automatize the installation of dependencies in the Linux (Ubuntu) operating system.**
 
 ## Input files required
 
-To run the protocol, **it is required to previously run a simulation in Gromacs with the system of interest**. After that, the following input files are required:
+To run the protocol, **first, it is required to run a simulation in Gromacs of the starting complex. Typically, the system is required to equilibrate for a sufficiently long time (100ns or so)**. After that, the following input files are required:
 
 - A PDB file containing the starting system, including the protein, peptide and solvent. **Ideally renumber the chains to start from position 1 at each chain**
 - The topology files of the structure chains
 - (Optional) A GRO file of the PDB template structure
-- (Optional) Files with itp extensions that selects the atoms restrained during the simulations
+- (Optional) Files with itp extensions that select the atoms restrained during the simulations
 
 ## MDP files for Gromacs MD simulations
 
-The protocol has included a set of mdp files (with fixed names) to run the multiple minimization steps, the NVT equilibrations and the NPT production stages. The parameters have been optimized for the protocol efficiency and accuracy. **However, if these parameters are going to be modified by the user, the source files can be found in the folder src/start/mdp. The default temperature of the system is 310K.**
+The protocol has included a set of mdp files (with fixed names) to run the MD simulation of each MC step after each mutation. These include the minimization steps, the NVT equilibration and the NPT production stages. The parameters have been optimized for the protocol efficiency and accuracy. **However, these parameters can be modified by the user, the source files can be found in the folder src/start/mdp. The default temperature of the system is 310K.**
 
 ## Graphical summary
 
@@ -54,7 +62,7 @@ The protocol has included a set of mdp files (with fixed names) to run the multi
 
 ## How to run the protocol script
 
-**The protocol has been created and tested using Python3.5**. The basic command line to run the script is:
+**The protocol has been created and tested using minimum Python3.5**. The basic command line to run the script is:
 
 `python3 run_protocol.py [-h] -c CONFIG_FILE`
                                        
@@ -134,6 +142,7 @@ When a design run start, an initial folder is created with the required input fi
 - **log_nvt**: Store the log file from each nvt run to verify possible errors
 
 The design protocol results are summarized in the output file called `mutation_report.txt`, which contains details per mutation step like the type of mutation, the average scores, the peptide/small protein sequence and if the mutation was accepted or not. In addition, the report includes failed attempts based on minimization or equilibration problems. The latest can happen depending on the MD result. To overcome these issues, the protocol automatically attempt a number of mutations using the immediately accepted structure. If after that number the system keeps failing, the new mutations will use the accepted structure before the last structure available. If the problem persist during a number of mutations, the run will stop.
+
 In addition, a file named `gromacs.log` stores the logging of all the Gromacs commands, and the file `gromacs_general_output.txt` store the latest Gromacs command used, just to track the progress during the run. To guarantee that the additional tools and dependencies are functioning, a set of tests are provided.
 
 ## Tests
@@ -155,7 +164,7 @@ We also included a folder called `auxiliar_scripts` to perform some additional a
 
 ## Docker details
 
-To run the docker image, first you require to install Docker in the operating system of interest. A guide of the distributions for Docker Desktop (Windows and Mac) and Docker server (Linux) can be found here: https://docs.docker.com/engine/install/
+To run the docker image (https://hub.docker.com/r/rochoa85/parce-1), first you require to install Docker in the operating system of interest. A guide of the distributions for Docker Desktop (Windows and Mac) and Docker server (Linux) can be found here: https://docs.docker.com/engine/install/
 
 After verifying the correct installation, and checking if `sudo` is required or not, the image can be downloaded as follows:
 
