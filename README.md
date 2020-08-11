@@ -139,7 +139,9 @@ gmxrc_path: /usr/local/gromacs/bin/GMXRC
 ```
 If any of these parameters are missing, the protocol stops and prints a warning messsage to the user.
 
-In addition, another configuration file called *(config_protein.txt)* can be used to run a protein-protein example based on a nanobody protein interaction. The configuration file contains all the required information to run the analysis based on the starting data provided in the folder `design_output/protein_protein`
+In addition, another configuration file called *(config_protein.txt)* can be used to run a protein-protein example based on a nanobody protein interaction. The configuration file contains all the required information to run the analysis based on the starting data provided in the folder `design_output/protein_protein`.
+
+In this example, the configuration file is prepared to run a minimal example of 5 mutation attempts using 5 ns per run. It implies a total of 25 ns of simulations, that could take around 10 hours on a server with 24 cores and GPU acceleration. In a local desktop the performance can be significantly lower. **So we recommend using a server with better infrastructure to take advantage of the Gromacs parallelizable code.**
 
 ## Output folder content
 When a design run starts, an initial folder is created with the required input files, as well as the folders that will store the outputs step-by-step. The following is a list of the folders created, and the specific content stored:
