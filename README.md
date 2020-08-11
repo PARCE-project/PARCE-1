@@ -148,11 +148,13 @@ When a design run starts, an initial folder is created with the required input f
 
 - **binder**: Stores the peptide/protein structure after each mutation attempt.
 - **target**: Stores the target structure after each mutation attempt.
+- **iterations**: Stores the average scores calculated per each iteration.
+- **mdp**: Stores the mdp files used for the molecular dynamics simulations.
 - **complexP**: Stores the target-peptide/protein structure after each mutation attempt.
 - **solvent**: Stores the solvent box after each mutation attempt.
 - **system**: Stores the complete target-peptide/protein-solvent complex after each mutation attempt.
 - **trajectory**: Stores the MD trajectory of the previous mutations.
-- **score_trajectory**: Stores the average scores for each snapshot from the trajectories. *The file is split into four columns. The first column is the score of the complex. The second and third are the scores for the receptor and peptide alone. The fourth column is the total score after doing the difference between the complex and each component. These values are obtained for some of the scoring functions*.
+- **score_trajectory**: Stores the average scores for each snapshot from the trajectories. *The file is split into four columns. The first column is the score of the complex. The second and third are the scores for the receptor and peptide alone. The fourth column is the total score after doing the difference between the complex and each component. For all of them it is possible to score the complex only. However the scoring function BACH can calculate the energies per component and subsequently apply the difference*.
 - **log_npt**: Stores the log file from each npt run to verify possible errors.
 - **log_nvt**: Stores the log file from each nvt run to verify possible errors.
 
