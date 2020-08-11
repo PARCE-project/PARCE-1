@@ -696,7 +696,7 @@ class complex:
                     print("Running full minimization ...")
                     self.run_minim("system",True)
                     steps=glob.glob("step*")
-                    mutation_document.write("Attempt mutation {}{}{}{} Steps {}\n".format(old_aa,self.binder,self.initial_res_pos_binder+position-1,new_aa,len(steps)))
+                    mutation_document.write("Attempt mutation {}{}{}{}\n".format(old_aa,self.binder,self.initial_res_pos_binder+position-1,new_aa))
                     flag_restart_mutation=1
                     os.system("rm step*")
 
@@ -748,16 +748,16 @@ class complex:
             # Execute the consensus
             accept=mutated_system.consensus_criteria(score_dictionary,last_good_iteration,mutated_system.score_list)
             if accept==1:
-                mutation_document.write("Iteration_{}: {}{}{}{} - Accepted Score: {} Sequence:{}\n".format(self.iteration,old_aa,self.binder,self.initial_res_pos_binder+position-1,new_aa,score_sentence,pep_single_mutation_2))
+                mutation_document.write("Iteration_{}: {}{}{}{} - Accepted Scores: {} Sequence:{}\n".format(self.iteration,old_aa,self.binder,self.initial_res_pos_binder+position-1,new_aa,score_sentence,pep_single_mutation_2))
             else:
-                mutation_document.write("Iteration_{}: {}{}{}{} - Rejected Score: {} Sequence:{}\n".format(self.iteration,old_aa,self.binder,self.initial_res_pos_binder+position-1,new_aa,score_sentence,pep_single_mutation_2))
+                mutation_document.write("Iteration_{}: {}{}{}{} - Rejected Scores: {} Sequence:{}\n".format(self.iteration,old_aa,self.binder,self.initial_res_pos_binder+position-1,new_aa,score_sentence,pep_single_mutation_2))
             
             # Save additional file with the scores per iteration
             iteration_file=open("{}/iterations/score_iterations_{}.txt".format(self.path,self.iteration),"w")
             if accept==1:
-                iteration_file.write("Iteration_{}: {}{}{}{} - Accepted Score: {} Sequence:{}\n".format(self.iteration,old_aa,self.binder,self.initial_res_pos_binder+position-1,new_aa,score_sentence,pep_single_mutation_2))
+                iteration_file.write("Iteration_{}: {}{}{}{} - Accepted Scores: {} Sequence:{}\n".format(self.iteration,old_aa,self.binder,self.initial_res_pos_binder+position-1,new_aa,score_sentence,pep_single_mutation_2))
             else:
-                iteration_file.write("Iteration_{}: {}{}{}{} - Rejected Score: {} Sequence:{}\n".format(self.iteration,old_aa,self.binder,self.initial_res_pos_binder+position-1,new_aa,score_sentence,pep_single_mutation_2))
+                iteration_file.write("Iteration_{}: {}{}{}{} - Rejected Scores: {} Sequence:{}\n".format(self.iteration,old_aa,self.binder,self.initial_res_pos_binder+position-1,new_aa,score_sentence,pep_single_mutation_2))
             iteration_file.close()
 
             # Print the mutation and update the peptide sequence if the consensus is accepted            
