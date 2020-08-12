@@ -48,9 +48,9 @@ python3 -m pip install GromacsWrapper==0.8 numpy==1.18 scipy==1.4 matplotlib==3.
 To run the protocol, **first, a simulation with Gromacs of the starting complex is required. Typically, for the initial complex a sufficiently long simulation is necessary (100ns or so)**. After that, the following input files are required:
 
 - A PDB file containing the starting system, including the protein, peptide and solvent. **Ideally renumber the chains to start from position 1 at each chain**
-- The topology files of the chains
-- (Optional) A GRO file of the PDB template structure
-- (Optional) Files with itp extensions that select the atoms restrained during the simulations
+- The topology files of the chains.
+- A GRO file of the PDB template structure with the same name of the PDB file.
+- (Optional) Files with itp extensions that select the atoms restrained during the simulations.
 
 ## MDP files for Gromacs MD simulations
 
