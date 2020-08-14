@@ -207,7 +207,7 @@ if __name__ == '__main__':
     for key in protein_complex.sc_dict_complete:
         score_sentence=score_sentence+key+":"+str(protein_complex.sc_dict_complete[key])+" "
         score_dictionary[0][key]=float(protein_complex.sc_dict_complete[key])
-    mutation_document.write("Iteration_{}: Original - Accepted Score: {} Sequence:{}\n".format(iteration,score_sentence,peptide_reference))
+    mutation_document.write("Iteration_{}: Original - Accepted Scores: {} Sequence:{}\n".format(iteration,score_sentence,peptide_reference))
     
     # Start the mutation of random amino acids
     protein_complex.mutation_random(residues_mod,mutation_document,score_dictionary,half_flag,mutation_method,scwrl_path)
