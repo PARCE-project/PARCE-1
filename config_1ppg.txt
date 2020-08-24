@@ -14,5 +14,4 @@ md_original: peptide_example
 score_list: bach,pisa,zrank,irad,bmf-bluues,firedock
 threshold: 3
 mutation_method: faspr
-scwrl_path: /usr/local/bin/scwrl4/Scwrl4
 gmxrc_path: /usr/local/gromacs/bin/GMXRC
