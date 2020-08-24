@@ -116,7 +116,7 @@ The test can be run using the following command: `python3 test.py`. A report wit
 
 ## Tutorial example
 
-The following is an example of the configuration file *(config_peptide.txt)* for a protease-peptide complex provided in the code:
+The following is an example of the configuration file *(config_1ppg.txt)* for a protease-peptide complex provided in the code:
 **NOTE: The <local_path>/PARCE-1 should be updated based on the location of the PARCE-1 folder**
 ```
 folder: 1ppg_design
@@ -139,7 +139,7 @@ gmxrc_path: /usr/local/gromacs/bin/GMXRC
 ```
 If any of these parameters are missing, the protocol stops and prints a warning messsage to the user.
 
-In addition, another configuration file called *(config_protein.txt)* can be used to run a protein-protein example based on a nanobody protein interaction. The configuration file contains all the required information to run the analysis based on the starting data provided in the folder `design_output/protein_protein`.
+In addition, another configuration file called *(config_vhh.txt)* can be used to run a protein-protein example based on a nanobody protein interaction. The configuration file contains all the required information to run the analysis based on the starting data provided in the folder `design_output/protein_protein`.
 
 In this example, the configuration file is prepared to run a minimal example of 5 mutation attempts using 5 ns per run. It implies a total of 25 ns of simulations, that could take around 10 hours on a server with 24 cores and GPU acceleration. In a local desktop the performance can be significantly lower. **So we recommend using a server with better infrastructure to take advantage of the Gromacs parallelizable code.**
 
