@@ -1,8 +1,8 @@
 title		= Peptide Design Protocol 
 ; Run parameters
 integrator	= md		; leap-frog integrator
-nsteps      = 50000 ; 100 ps
-dt		= 0.002		; 2 fs
+nsteps      = 10000 ; 100 ps
+dt		= 0.001		; 1 fs
 ; Output control
 ;nstxout		= 5000		; save coordinates every 10 ps
 ;nstvout		= 5000		; save velocities every 10 ps
