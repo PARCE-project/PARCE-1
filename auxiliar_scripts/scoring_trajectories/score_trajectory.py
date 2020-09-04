@@ -8,6 +8,23 @@ From publication "PARCE: Protocol for Amino acid Refinement through Computationa
 Computer Physics Communications 
 Authors: Rodrigo Ochoa, Miguel A. Soler, Alessandro Laio, Pilar Cossio
 Year: 2020
+
+NOTE: TO RUN THE SCRIPT A SET OF VARAIBLES SHOULD BE MODIFIED AT THE END BASED ON YOUR LOCAL PATHS
+
+Explanation:
+
+This script calculates the scores for a given MD trajectory or single file in PDB format, printing the score per frame
+and the final average for each score. To run the script first update it with the path of the PARCE source folder and
+the path of the trajectory, together with the name of the file. NOTE: The file should be in PDB format
+
+The variables to modify are:
+- src_route: Path of the PARCE src folder
+- traj_path: Path where the PDB trajectory or single file is located
+- pdb_name: Name of the PDB file containing the single complex or the MD trajectory frames
+
+To run the command use the instruction 'python3 score_trajectory.py'. The outputs are single files per scoring function
+with the calculated scores for all the frames included in the PDB file. With that output, the user can easily implement
+a consensus by vote based on the trajectories they require to compare. 
 """
 
 # Import local modules
@@ -98,10 +115,10 @@ def read_score_trajectory(pdb_file,score_list,src_route,path,chain_join,binder):
     return score_dictionary,total_score
 
 ########################################################################################
-def score_complex(score_list,pdb_name,src_route,path,chain_join,binder):
+def score_complex(score_list,pdb_name,src_route,local_path,traj_path,chain_join,binder):
         
     # Calculate the scores based on the trajectories
-    sc_dict_complex,totalAll=read_score_trajectory("{}.pdb".format(pdb_name),score_list,src_route,path,chain_join,binder)
+    sc_dict_complex,totalAll=read_score_trajectory("{}/{}.pdb".format(traj_path,pdb_name),score_list,src_route,local_path,chain_join,binder)
     
     # Write the scores per frame in a file for each scoring function
     for score in totalAll:
@@ -124,16 +141,23 @@ def score_complex(score_list,pdb_name,src_route,path,chain_join,binder):
 ########################################################################################
 if __name__ == '__main__':
     
-    # Main parameters: TO MODIFY
+    # MAIN PARAMETERS TO MODIFY
     src_route="/home/PARCE-1" # Local path of your PARCE installation folder
     sys.path.append(src_route)
     from src import scoring
     
-    score_list=["bach","pisa","zrank","irad","firedock","bmf-bluues"] # Select the ones of interest
-    path="/home/PARCE-1/auxiliar_scripts/scoring_trajectories" # Please change based on your local installation
-    pdb_name="example_trajectory" # Name of the PDB trajectory file or single file
-    target_chains=["A"] # List with the ids of the target chains
-    binder_chain="B" # Chain id of the peptide
+    # Local path defined automatically
+    local_path=os.getcwd()
+    # List of scoring functions
+    score_list=["bach","pisa","zrank","irad","firedock","bmf-bluues"] 
+    # Path of the trajectory or single PDB file
+    traj_path="/home/PARCE-1/auxiliar_scripts/scoring_trajectories"
+    # Name of the PDB trajectory file or single file
+    pdb_name="example_trajectory"
+    # List with the ids of the target chains
+    target_chains=["A"]
+    # Chain id of the peptide
+    binder_chain="B" 
     
     # Main function to score the trajectory or PDB file
-    score_complex(score_list,pdb_name,src_route,path,target_chains,binder_chain)
+    score_complex(score_list,pdb_name,src_route,local_path,traj_path,target_chains,binder_chain)

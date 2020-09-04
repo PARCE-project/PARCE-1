@@ -8,6 +8,14 @@ From publication "PARCE: Protocol for Amino acid Refinement through Computationa
 Computer Physics Communications 
 Authors: Rodrigo Ochoa, Miguel A. Soler, Alessandro Laio, Pilar Cossio
 Year: 2020
+
+Explanation:
+
+This script generates plots showing the evolution of the scores, and the mutations accepted and rejected during
+the design. The input for that analysis is the mutation_report.txt file obtained after running a design cycle.
+To run the script first update it with the path where the mutation_report.txt file is located, and run the
+command 'python3 plot_result_scores.py'. Two plots are created for each scoring function: one has only the accepted
+mutations whereas the other has also the rejected muationtions (red points).
 """
 
 # Import local modules
@@ -16,7 +24,7 @@ from statistics import mean
 from statistics import stdev
 from statistics import variance
 
-# Variables TO MODIFY
+# VARIABLES TO MODIFY
 path="/home/PARCE-1/auxiliar_scripts/plot_scores"
 score_list=["bach","pisa","zrank","irad","bmf-bluues","firedock"]
 
