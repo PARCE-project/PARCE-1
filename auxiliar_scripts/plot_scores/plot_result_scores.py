@@ -15,7 +15,7 @@ This script generates plots showing the evolution of the scores, and the mutatio
 the design. The input for that analysis is the mutation_report.txt file obtained after running a design cycle.
 To run the script first update it with the path where the mutation_report.txt file is located, and run the
 command 'python3 plot_result_scores.py'. Two plots are created for each scoring function: one has only the accepted
-mutations whereas the other has also the rejected muationtions (red points).
+mutations whereas the other has also the rejected mutations (red points).
 """
 
 # Import local modules
