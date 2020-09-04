@@ -171,7 +171,7 @@ With the final `mutation_report.txt`, it is possible to check and select the acc
 
 We also included a folder called `auxiliar_scripts` to perform some additional analysis. One script, `plot_result_scores.py`, generates plots showing the evolution of the scores, and the mutations accepted and rejected during the design. The input for that analysis is the `mutation_report.txt` file obtained after running a design cycle. To run the script first update it with the path where the `mutation_report.txt` file is located, and run the command `python3 plot_result_scores.py`. Two plots are created for each scoring function: one has only the accepted mutations whereas the other has also the rejected muationtions (red points).
 
-The second script calculates the scores for a given MD trajectory or single file in PDB format, printing the score per frame and the final average for each score. To run the script first update it with the path of the PARCE source folder and the path of the trajectory, together with the name of the file. **NOTE: The file should be in PDB format.**
+The second script, `score_trajectory.py`, calculates the scores for a given MD trajectory or single file in PDB format, printing the score per frame and the final average for each score. To run the script first update it with the path of the PARCE source folder and the path of the trajectory, together with the name of the file. **NOTE: The file should be in PDB format.**
 
 The variables to modify are:
 
