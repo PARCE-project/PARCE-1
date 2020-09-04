@@ -169,9 +169,17 @@ In addition, a file named `gromacs.log` stores the logging of all the Gromacs co
 
 With the final `mutation_report.txt`, it is possible to check and select the accepted sequences, and plot the scores to verify that they are minimizing after the mutation steps. The results are numbered per iteration step, and the folder's content facilitates locating the information. Examples of the analysis are provided in the original manuscript.
 
-We also included a folder called `auxiliar_scripts` to perform some additional analysis. One script, `score_trajectory.py`, generates plots showing the evolution of the scores, and the mutations accepted and rejected during the design. The input for that analysis is the `mutation_report.txt` file obtained after running a design cycle. To run the script first update it with the path where the `mutation_report.txt` file is located, and run the command `python3 plot_result_scores.py`. Two plots are created for each scoring function: one has only the accepted mutations whereas the other has also the rejected muationtions (red points).
+We also included a folder called `auxiliar_scripts` to perform some additional analysis. One script, `plot_result_scores.py`, generates plots showing the evolution of the scores, and the mutations accepted and rejected during the design. The input for that analysis is the `mutation_report.txt` file obtained after running a design cycle. To run the script first update it with the path where the `mutation_report.txt` file is located, and run the command `python3 plot_result_scores.py`. Two plots are created for each scoring function: one has only the accepted mutations whereas the other has also the rejected muationtions (red points).
 
-The second script, `plot_result_scores.py`, allows the generation of plots showing the evolution of the scores, and the mutations accepted during the design. The input for that analysis is the `mutation_report.txt` file obtained after running a design cycle. To run the script just update in the code the path where the `mutation_report.txt` file is located, and run the command `python3 plot_result_scores.py`.
+The second script calculates the scores for a given MD trajectory or single file in PDB format, printing the score per frame and the final average for each score. To run the script first update it with the path of the PARCE source folder and the path of the trajectory, together with the name of the file. **NOTE: The file should be in PDB format.**
+
+The variables to modify are:
+
+- src_route: Path of the PARCE src folder
+- traj_path: Path where the PDB trajectory or single file is located
+- pdb_name: Name of the PDB file containing the single complex or the MD trajectory frames
+
+To run the command use the instruction `python3 score_trajectory.py`. The outputs are single files per scoring function with the calculated scores for all the frames included in the PDB file. With that output, the user can easily implement a consensus by vote based on the trajectories they require to compare. 
 
 ## Docker details
 
