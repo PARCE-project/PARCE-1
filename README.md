@@ -81,7 +81,7 @@ The configuration file describes all the parameters required to run the protocol
 
 A configuration file is required with the following parameters:
 
-- **folder**: Name of the folder where all the output files of the protocol will be stored.
+- **folder**: Name of the folder where all the output files of the protocol will be stored. This folder is created inside the *design_output* folder after running the protocol.
 - **src_route**: Route of the PARCE folder where the *src* folder is located. This allows running the protocol in any location.
 - **mode**: The design mode, which has three possible options: *start* (start the protocol from zero), *restart* (start from a particular iteration of a previous run) and *nothing* (just run without modifying existing files for debugging purposes).
 - **peptide_reference**: The sequence of the peptide, or protein fragment that will be modified.
