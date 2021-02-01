@@ -151,10 +151,10 @@ if __name__ == '__main__':
     else:
         print("The parameter 'threshold' is required for the analysis. Exiting ...")
         exit()
-    if args.mutation_method in ("faspr","scwrl4"):
+    if args.mutation_method in ("faspr","scwrl"):
         mutation_method=args.mutation_method
     else:
-        print("The parameter 'mutation_method' is required for the analysis, or an option should be selected from: faspr and scwrl4. Exiting ...")
+        print("The parameter 'mutation_method' is required for the analysis, or an option should be selected from: faspr and scwrl. Exiting ...")
         exit()
     try:    
         if args.scwrl_path:
